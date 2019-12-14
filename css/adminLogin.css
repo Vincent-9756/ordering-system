@@ -254,3 +254,11 @@ button.ghost {
 .container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
+
+#loginToHome {
+  margin-top: 10px;
+}
+
+#loginToUser {
+  margin-top: 20px;
+}
