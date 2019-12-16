@@ -1,0 +1,73 @@
+body {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#order {
+  width: 100%;
+  height: 100%;
+}
+
+.order-title {
+  height: 50px;
+  line-height: 50px;
+  background: #FF5722;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.orderTableTop {
+  width: 100%;
+  height: 50px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.orderTableTop>div {
+  width: 20%;
+}
+
+.orderBox {
+  width: 100%;
+  border: 1px dashed #393D49;
+  margin-top: 20px;
+  border-left: 0;
+  border-right: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderPic,.orderDetail,.order-price,.order-num,.order-operate {
+  width: 18%;
+  height: 165px;
+  line-height: 165px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.orderPic img {
+  width: 100%;
+  height: 100%;
+}
+
+.checkDetail,.delete {
+  cursor: pointer;
+}
+
+.checkDetail:hover,.delete:hover {
+  color: #FF5722;
+}

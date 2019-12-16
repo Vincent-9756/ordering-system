@@ -18,7 +18,7 @@ layui.use('layer', function () {
 
 $(document).keydown(function (event) {
   if (event.keyCode == 13) {
-    document.getElementById("loginToHome").click();
+    $('#loginToHome').click();
   }
 });
 
@@ -51,7 +51,7 @@ $('#loginToHome').click(function () {
       error: function (res) {
         layer.msg('错误请重试');
       }
-    })
+    });
   }
 });
 

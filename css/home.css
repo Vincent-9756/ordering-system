@@ -1,3 +1,13 @@
+body {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
 #home {
   width: 100%;
   height: 100%;
@@ -6,28 +16,21 @@
 /* 头部导航 */
 .layui-layout-admin .layui-header {
   background-color: #393D49 !important;
-}
-
-.layui-layout-left {
-  left: 220px;
-}
-
-.layui-header .layui-nav .layui-nav-item input {
-  background: #393D49;
-  color: #fff;
-  padding-left: 10px;
-}
-
-.layui-header .layui-nav .layui-nav-item input::-webkit-input-placeholder {
   color: #fff;
 }
 
 .layui-header .layui-nav .layui-nav-item a {
   color: #fff;
+  font-size: 18px !important;
+}
+
+.layui-header .layui-nav .layui-nav-item a img {
+  width: 40px;
+  height: 40px;
 }
 
 .layui-header .layui-nav .layui-nav-item a:hover {
-  color: #000;
+  color: #FF5722;
 }
 
 .layui-header .layui-layout-right .layui-nav-child dd {
@@ -40,105 +43,277 @@
   background: #5FB878;
 }
 
-/* 左边导航 */
-.layui-layout-admin .layui-side {
-  width: 220px;
-  top: 0;
-  z-index: 1001;
-}
-
-.leftMenu {
-  overflow: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.leftMenu::-webkit-scrollbar {
-  display: none;
-}
-
-.layui-nav-tree {
+.c-header {
   width: 100%;
-  /* border-top: 1px #000 solid; */
+  height: 350px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.layui-layout-admin .layui-logo {
-  background-color: #243346;
-  color: #fff;
-  position: relative;
-  height: 60px;
-  width: 220px;
-  line-height: 60px;
+.c-heder-left {
+  width: 65%;
+  height: 100%;
+  background: #5FB878;
+}
+
+.c-heder-left img {
+  width: 100%;
+  height: 100%;
+}
+
+.c-heder-right {
+  width: 34%;
+  height: 100%;
+}
+
+.layui-carousel {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.notice-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.notice-header .noticeList {
+  color: #FFB800;
+}
+
+.notice-header .moreNotice {
+  color: #FF5722;
   cursor: pointer;
 }
 
-.layui-layout-admin .layui-logo img {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  left: 6px;
-  top: 10px;
-}
-
-.layui-nav {
-  background-color: #2F4056;
-}
-
-.layui-bg-black {
-  background-color: #2F4056 !important;
-}
-
-.layui-side-scroll .layui-nav .layui-nav-item a {
-  height: 56px;
-  line-height: 56px;
-  padding-left: 60px;
-  position: relative;
-  text-overflow: ellipsis;
+.notice-footer {
+  width: 100%;
+  height: 300px;
   overflow: hidden;
+}
+
+.notice-footer li {
+  height: 45px;
+  line-height: 45px;
+  padding: 0 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.notice-footer li:hover {
+  color: #FFB800;
+}
+
+.tadayMenu {
+  margin-top: 20px;
+}
+
+.menuList {
+  border: 1px solid #e6e6e6;
+  line-height: 26px;
+  padding: 10px 10px 10px 7em;
+  background-color: #fff;
+  position: relative;
+  color: #393D49;
+}
+
+.menuBox span {
+  display: inline-block;
+  cursor: pointer;
+  margin: 5px 6px;
+  padding: 0 10px;
+  line-height: 36px;
+  user-select: none;
+}
+
+.menuBox span:hover {
+  color: #01AAED;
+}
+
+.menuBox {
+  display: inline-block;
+}
+
+.selectMenu {
+  color: #fff;
+  background: #5FB878;
+}
+
+.foodBox {
+  width: 100%;
+  height: 500px;
+  border: 1px solid #e6e6e6;
+  border-bottom: 0;
+  margin-top: 20px;
+}
+
+.rstblock {
+  border-bottom: 1px #f5f5f5 solid;
+  width: 33.33333%;
+  height: 140px;
+  float: left;
+}
+
+.rstblock-logo {
+  padding: 20px;
+  color: #999;
+  float: left;
+  font-size: 12px;
+  text-align: center;
+}
+
+.rstblock-logo-icon {
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 10px;
+}
+
+.rstblock-content {
+  padding: 20px;
+}
+
+.rstblock:hover {
+  color: #01AAED !important;
+  background: #f5f5f5;
+}
+
+.rstblock-title {
+  font-size: 16px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rstblock-activity {
+  margin-top: 9px;
+}
+
+.rstblock-activity i {
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 16px;
+  overflow: hidden;
+  text-align: center;
+  width: 18px;
+  border-radius: 2px;
+  margin-right: 3px;
+  padding: 1px;
+  background-color: #f63;
   white-space: nowrap;
 }
 
-.layui-side-scroll .layui-nav .layui-nav-item .layui-icon {
+#pagetion {
+  width: 100%;
+  position: relative;
+}
+
+#pagetion .layui-laypage {
   position: absolute;
-  top: 0;
-  left: 20px;
+  left: 50%;
+  top: 5px;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
-/* 主体 */
-.layui-body {
-  left: 220px;
-}
-
-.layui-fluid {
-  padding: 15px;
-}
-
-.contentShow {
+.dialog {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+  z-index: 1004;
   display: none;
 }
 
-.contentShow .layui-card-header {
-  text-align: center;
-  color: #32ddd2;
-  font-size: 22px;
+.menuDetail {
+  width: 900px;
+  height: 460px;
+  background-color: #fff;
+  padding: 30px 40px;
+  z-index: 1005;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
 
-/* 底部 */
-.layui-layout-admin .layui-footer {
-  left: 220px;
-  height: 59px;
-  line-height: 59px;
-  text-align: center;
-  z-index: 999;
+.menu-detail-close {
+  padding: 0 5px;
+  position: absolute;
+  top: 0;
+  right: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #ccc;
+  user-select: none;
 }
 
-.layui-layout-admin .layui-footer .footLogo {
-  display: inline-block;
-  width: 230px;
-  height: 59px;
+.menu-pic {
+  width: 360px;
+  height: 360px;
+  margin-right: 30px;
 }
 
-.layui-layout-admin .layui-footer .footLogo img {
+.menu-pic img {
   width: 100%;
   height: 100%;
+}
+
+.menu-title {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.menu-main {
+  padding: 5px 0;
+  border: 1px dashed #ccc;
+  border-left: 0;
+  border-right: 0;
+  color: #aaa;
+  line-height: 20px;
+  font-size: 13px;
+}
+
+.price-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.menu-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: #f17530;
+  line-height: 1;
+}
+
+.yen {
+  font-size: 16px;
+}
+
+.menu-buy {
+  background-color: #0089dc;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border: 0;
+  width: 120px;
+  height: 35px;
+  line-height: 26px;
+  border-radius: 20px;
+  text-align: center;
+  outline: 0;
 }
