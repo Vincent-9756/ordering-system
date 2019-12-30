@@ -1,4 +1,4 @@
-var url = 'http://192.168.31.215:';
+var url = 'http://120.79.88.154:';
 var port = '8080';
 
 function getCookie(cname) {

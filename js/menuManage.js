@@ -5,17 +5,55 @@ let status = true;
 let healthPic;
 let addHealthPic;
 let studentObj = {
-  "account": null,
-  "pwd": null,
+  "dishTypeId": null,
+  "detail": null,
   "name": null,
-  "healthPic": null,
-  "healthExpire": null,
+  "price": null,
+  "img": null,
   "pageSize": 5,
   "pageNum": numStudent
 }
 
-layui.use(['laydate', 'layer', 'upload'], function () {
-  laydate = layui.laydate;
+// 下拉框函数
+$(document).on('click', '.f-push>p', function () {
+  event.stopPropagation();
+  if ($(this).parent().hasClass('marker')) {
+    return false;
+  }
+  $(this).siblings('div').toggle();
+  $(this).parent().addClass('marker');
+}).on('click', '.f-push>div>div', function () {
+  event.stopPropagation();
+  $(this).parent().siblings('p').attr('value', $(this).attr('value')).html($(this).text());
+  $(this).parent().hide();
+  $(this).parent().parent().removeClass('marker');
+}).click(function (event) {
+  var _con = $('.f-push');
+  if (!_con.is(event.target) && _con.has(event.target).length === 0) {
+    $('.f-push>div').hide();
+    $('.f-push').removeClass('marker');
+  }
+});
+
+// 获取菜品下拉框
+$.ajax({
+  type: "post",
+  url: url + port + "/dishType/queryDishType",
+  dataType: "json",
+  contentType: "application/json;charset=UTF-8",
+  data: JSON.stringify({}),
+  success: function (res) {
+    var data = '';
+    for (let index = 0; index < res.data.length; index++) {
+      data += '<div value="' + res.data[index].id + '">' + res.data[index].name + '</div>\n'
+    }
+    $('.dishType').append(data);
+    $('.dishType2').append(data);
+    $('.dishType3').append(data);
+  }
+});
+
+layui.use(['layer', 'upload'], function () {
   layer = layui.layer;
   upload = layui.upload;
 
@@ -55,20 +93,13 @@ layui.use(['laydate', 'layer', 'upload'], function () {
   });
 });
 
-function changeDate(id) {
-  laydate.render({
-    elem: id,
-    format: 'yyyy-MM-dd'
-  });
-}
-
 // 进入页面获取表格
 getStudentData();
 
 function getStudentData(first) {
   $.ajax({
     type: "post",
-    url: url + port + "/employee/queryEmployee",
+    url: url + port + "/dish/queryDish",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify(studentObj),
@@ -85,19 +116,19 @@ function getStudentData(first) {
           '<div>' + ((index + 1) + (studentObj.pageNum - 1) * 5) + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<div>' + res.data[index].account + '</div>\n' +
-          '</td>\n' +
-          '<td style="width:200px;">\n' +
           '<div>' + res.data[index].name + '</div>\n' +
           '</td>\n' +
-          '<td>\n' +
-          '<div>' + res.data[index].tel + '</div>\n' +
+          '<td style="width:200px;">\n' +
+          '<div style="width:200px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">' + res.data[index].detail + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<img src="http://120.79.88.154:8080' + res.data[index].healthPic + '" />\n' +
+          '<div>' + res.data[index].price + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<div>' + res.data[index].healthExpire + '</div>\n' +
+          '<img src="http://120.79.88.154:8080' + res.data[index].img + '" />\n' +
+          '</td>\n' +
+          '<td>\n' +
+          '<div>' + res.data[index].dishTypeName + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
           '<div class="operate">\n' +
@@ -140,9 +171,7 @@ function changePage(el) {
 $('body').on('click', '.deleteStudent', function () {
   $.ajax({
     type: "get",
-    url: url + port + "/employee/delEmployeeById",
-    // dataType: "json",
-    // contentType: "application/json;charset=UTF-8",
+    url: url + port + "/dish/delDishById",
     data: {
       id: $('.deleteStudent').attr('value')
     },
@@ -170,23 +199,21 @@ $('body').on('click', '.editStudent', function () {
   editId = $(this).attr('value');
   getDetail($(this).attr('value'));
   $('.wrrap2').show();
-  changeDate(healthExpire)
 });
 
 $('.submitMessage').click(function () {
   $.ajax({
     type: "post",
-    url: url + port + "/employee/updateEmployeeById",
+    url: url + port + "/dish/updateDishById",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       "id": editId,
-      "account": $('.studentBox2 .account').val(),
-      "pwd": $('.studentBox2 .pwd').val(),
       "name": $('.studentBox2 .name').val(),
+      "detail": $('.studentBox2 .detail').val(),
+      "price": $('.studentBox2 .price').val(),
       "healthPic": healthPic,
-      "tel": $('.studentBox2 .tel').val(),
-      "healthExpire": $('.studentBox2 .healthExpire').val(),
+      "dishTypeId": $('.studentBox2 #dishTypeName2').attr('value'),
     }),
     success: function (res) {
       layer.msg('修改成功');
@@ -205,19 +232,29 @@ $('.closeStudentBox2').click(function () {
 function getDetail(e) {
   $.ajax({
     type: "post",
-    url: url + port + "/employee/queryEmployee",
+    url: url + port + "/dish/queryDish",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       id: e
     }),
     success: function (res) {
-      $('.studentBox .account,.studentBox2 .account').val(res.data[0].account);
-      $('.studentBox .pwd,.studentBox2 .pwd').val(res.data[0].pwd);
       $('.studentBox .name,.studentBox2 .name').val(res.data[0].name);
-      $('.studentBox .tel,.studentBox2 .tel').val(res.data[0].tel);
+      $('.studentBox .detail,.studentBox2 .detail').val(res.data[0].detail);
+      $('.studentBox .price,.studentBox2 .price').val(res.data[0].price);
+      $('.studentBox .dishTypeName, .studentBox2 #dishTypeName2').attr('value', res.data[0].dishTypeId);
       $('.studentBox .healthPic,.studentBox2 .healthPic').attr('src', url + port + res.data[0].healthPic);
-      $('.studentBox .healthExpire,.studentBox2 .healthExpire').val(res.data[0].healthExpire);
+      for (let i = 0; i < $('.dishType2').children('div').length; i++) {
+        if ($('#dishTypeName2').attr('value') == $('.dishType2').children('div').eq(i).attr('value')) {
+          // $('#dishTypeName2').attr('value', $('.dishType2').children('div').eq(i).attr('value'));
+          $('#dishTypeName2').text($('.dishType2').children('div').eq(i).text())
+        }
+      }
+      for (let i = 0; i < $('.dishType').children('div').length; i++) {
+        if ($('.studentBox .dishTypeName').attr('value') == $('.dishType').children('div').eq(i).attr('value')) {
+          $('.studentBox .dishTypeName').attr('value', $('.dishType').children('div').eq(i).text());
+        }
+      }
     }
   });
 }
@@ -225,7 +262,6 @@ function getDetail(e) {
 // 添加公告
 $('.addStudent').click(function () {
   $('.wrrap3').show();
-  changeDate(addHealthExpire)
   layui.use('upload', function () {
     upload = layui.upload;
 
@@ -251,26 +287,24 @@ $('.addStudent').click(function () {
 $('.addMessage').click(function () {
   $.ajax({
     type: "post",
-    url: url + port + "/employee/addEmployee",
+    url: url + port + "/dish/addDish",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       "empId": getCookie('id'),
-      "account": $('.studentBox3 .account').val(),
-      "pwd": $('.studentBox3 .pwd').val(),
       "name": $('.studentBox3 .name').val(),
+      "detail": $('.studentBox3 .detail').val(),
+      "price": $('.studentBox3 .price').val(),
       "healthPic": addHealthPic,
-      "tel": $('.studentBox3 .tel').val(),
-      "healthExpire": $('.studentBox3 .healthExpire').val(),
+      "dishTypeId": $('.studentBox3 #dishTypeName3').attr('value'),
     }),
     success: function (res) {
       layer.msg('添加成功');
-      $('.studentBox3 .account').val('');
-      $('.studentBox3 .pwd').val('');
       $('.studentBox3 .name').val('');
-      $('.studentBox3 .tel').val('');
-      $('.studentBox3 .healthExpire').val('');
-      $('.studentBox2 .healthPic').attr('src', '');
+      $('.studentBox3 .detail').val('');
+      $('.studentBox3 .price').val('');
+      $('.studentBox3 #dishTypeName3').attr('value', '');
+      $('.studentBox3 #dishTypeName3').text('菜品列表')
       addHealthPic = ''
       $('.wrrap3').hide();
       $('#studentTable').empty();
@@ -282,5 +316,15 @@ $('.addMessage').click(function () {
 $('.closeStudentBox3').click(function () {
   $('.studentBox3 .tittle').val('');
   $('.studentBox3 .content').val('');
+  $('.studentBox3 .price').val('');
+  $('.studentBox3 #dishTypeName3').attr('value', '');
+  $('.studentBox3 #dishTypeName3').text('菜品列表')
+  addHealthPic = ''
   $('.wrrap3').hide();
+});
+
+// 选取菜品更新表格
+$('#dishTypeName').bind('DOMNodeInserted', function () {
+  studentObj.dishTypeId = $('#dishTypeName').attr('value');
+  getStudentData();
 });

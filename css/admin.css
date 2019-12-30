@@ -4,9 +4,11 @@ body {
   scrollbar-width: none;
 }
 
-body::-webkit-scrollbar,.layui-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+.layui-body::-webkit-scrollbar {
   display: none;
 }
+
 #home {
   width: 100%;
   height: 100%;
@@ -20,7 +22,7 @@ body::-webkit-scrollbar,.layui-body::-webkit-scrollbar {
 
 .layui-header .layui-nav .layui-nav-item a {
   color: #fff;
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .layui-header .layui-nav .layui-nav-item a img {
@@ -53,13 +55,13 @@ body::-webkit-scrollbar,.layui-body::-webkit-scrollbar {
   z-index: 1001;
 }
 
-.leftMenu {
+#leftMenu {
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.leftMenu::-webkit-scrollbar {
+#leftMenu::-webkit-scrollbar {
   display: none;
 }
 
@@ -97,7 +99,9 @@ body::-webkit-scrollbar,.layui-body::-webkit-scrollbar {
 .layui-side-scroll .layui-nav .layui-nav-item a {
   height: 56px;
   line-height: 56px;
-  padding-left: 60px;
+  /* padding-left: 60px; */
+  padding: 0;
+  text-align: center;
   position: relative;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -113,7 +117,7 @@ body::-webkit-scrollbar,.layui-body::-webkit-scrollbar {
 /* 主体 */
 .layui-body {
   left: 220px;
-  bottom: 0!important;
+  bottom: 0 !important;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;

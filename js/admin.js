@@ -96,6 +96,7 @@ layui.use(['element', 'layer', 'upload'], function () {
       }
     });
   });
+  $('#leftMenu').children('ul').eq(0).children('li').eq(0).children('a').click();
 });
 
 // 展开收缩导航栏

@@ -3,8 +3,8 @@ let tableLength; // 分页长度
 let editId;
 let status = true;
 let studentObj = {
-  "title": '',
-  "content": '',
+  "name": null,
+  "detail": null,
   "pageSize": 5,
   "pageNum": numStudent
 }
@@ -27,7 +27,7 @@ getStudentData();
 function getStudentData(first) {
   $.ajax({
     type: "post",
-    url: url + port + "/notice/queryNotice",
+    url: url + port + "/dishType/queryDishType",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify(studentObj),
@@ -44,13 +44,10 @@ function getStudentData(first) {
           '<div>' + ((index + 1) + (studentObj.pageNum - 1) * 5) + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<div>' + res.data[index].title + '</div>\n' +
+          '<div>' + res.data[index].name + '</div>\n' +
           '</td>\n' +
           '<td style="width:200px;">\n' +
-          '<div style="width:200px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">' + res.data[index].context + '</div>\n' +
-          '</td>\n' +
-          '<td>\n' +
-          '<div>' + res.data[index].createTime + '</div>\n' +
+          '<div style="width:200px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">' + res.data[index].detail + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
           '<div class="operate">\n' +
@@ -93,7 +90,7 @@ function changePage(el) {
 $('body').on('click', '.deleteStudent', function () {
   $.ajax({
     type: "get",
-    url: url + port + "/notice/delNoticeById?id=" + $(this).attr('value'),
+    url: url + port + "/dishType/delDishTypeById?id=" + $(this).attr('value'),
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     success: function () {
@@ -125,13 +122,13 @@ $('body').on('click', '.editStudent', function () {
 $('.submitMessage').click(function () {
   $.ajax({
     type: "post",
-    url: url + port + "/notice/updateNoticeById",
+    url: url + port + "/dishType/updateDishTypeById",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       "id": editId,
-      "title": $('.studentBox2 .tittle').val(),
-      "context": $('.studentBox2 .content').val()
+      "name": $('.studentBox2 .tittle').val(),
+      "detail": $('.studentBox2 .content').val()
     }),
     success: function (res) {
       layer.msg('修改成功');
@@ -150,15 +147,15 @@ $('.closeStudentBox2').click(function () {
 function getDetail(e) {
   $.ajax({
     type: "post",
-    url: url + port + "/notice/queryNotice",
+    url: url + port + "/dishType/queryDishType",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       id: e
     }),
     success: function (res) {
-      $('.studentBox .tittle,.studentBox2 .tittle').val(res.data[0].title);
-      $('.studentBox .content,.studentBox2 .content').val(res.data[0].context);
+      $('.studentBox .tittle,.studentBox2 .tittle').val(res.data[0].name);
+      $('.studentBox .content,.studentBox2 .content').val(res.data[0].detail);
     }
   });
 }
@@ -170,13 +167,13 @@ $('.addStudent').click(function () {
 $('.addMessage').click(function () {
   $.ajax({
     type: "post",
-    url: url + port + "/notice/addNotice",
+    url: url + port + "/dishType/addDishType",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       "empId": getCookie('id'),
-      "title": $('.studentBox3 .tittle').val(),
-      "context": $('.studentBox3 .content').val()
+      "name": $('.studentBox3 .tittle').val(),
+      "detail": $('.studentBox3 .content').val()
     }),
     success: function (res) {
       layer.msg('添加成功');
