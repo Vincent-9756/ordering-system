@@ -115,7 +115,7 @@ function getStudentData(first) {
           if (res.data[index].healthExpire < getBeforeDate(0)) {
             layer.open({
               type: 1,
-              tittle: '健康证过期提醒',
+              title: '健康证过期提醒',
               btn: '确定',
               btnAlign: 'c',
               area: '300px',
@@ -203,7 +203,7 @@ $('body').on('click', '.deleteStudent', function () {
     success: function () {
       layer.msg('删除成功');
       $('#studentTable').empty();
-      getStudentData();
+      getStudentData(1);
     }
   });
 });

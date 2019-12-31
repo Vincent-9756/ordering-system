@@ -9,7 +9,6 @@ let studentObj = {
   "address": null,
   "stock": null,
   "expireTime": null,
-  "empId": getCookie('id'),
   "pageSize": 5,
   "pageNum": numStudent
 }
@@ -153,7 +152,7 @@ function getStudentData(first) {
           if (res.data[index].expireTime < getBeforeDate(0)) {
             layer.open({
               type: 1,
-              tittle: '检验报告过期提醒',
+              title: '检验报告过期提醒',
               btn: '确定',
               btnAlign: 'c',
               area: '300px',
@@ -242,7 +241,7 @@ $('body').on('click', '.deleteStudent', function () {
     success: function () {
       layer.msg('删除成功');
       $('#studentTable').empty();
-      getStudentData();
+      getStudentData(1);
     }
   });
 });
@@ -279,7 +278,7 @@ $('.submitMessage').click(function () {
       "stock": $('.studentBox2 .stock').val(),
       "expireTime": $('.studentBox2 .expireTime').val(),
       "reportPic": healthPic,
-      // "empId": $('.studentBox2 #empName2').attr('value'),
+      "empId": $('.studentBox2 #empName2').attr('value'),
     }),
     success: function (res) {
       layer.msg('修改成功');
@@ -357,7 +356,7 @@ $('.addMessage').click(function () {
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
-      "empId": $('#empName3').attr('value'),
+      "empId": Number($('#empName3').attr('value')),
       "name": $('.studentBox3 .name').val(),
       "address": $('.studentBox3 .address').val(),
       "stock": $('.studentBox3 .stock').val(),

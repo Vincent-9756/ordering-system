@@ -178,7 +178,7 @@ $('body').on('click', '.deleteStudent', function () {
     success: function () {
       layer.msg('删除成功');
       $('#studentTable').empty();
-      getStudentData();
+      getStudentData(1);
     }
   });
 });
