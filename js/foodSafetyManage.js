@@ -356,7 +356,7 @@ $('.addMessage').click(function () {
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
-      "empId": Number($('#empName3').attr('value')),
+      "empId": $('#empName3').attr('value'),
       "name": $('.studentBox3 .name').val(),
       "address": $('.studentBox3 .address').val(),
       "stock": $('.studentBox3 .stock').val(),
