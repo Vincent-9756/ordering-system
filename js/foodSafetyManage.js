@@ -369,7 +369,7 @@ $('.addMessage').click(function () {
       $('.studentBox3 .address').val('');
       $('.studentBox3 .stock').val('');
       $('.studentBox3 #empName3').attr('value', '');
-      $('.studentBox3 #empName3').text('管理员');
+      $('.studentBox3 #empName3').text('入库人员');
       $('.studentBox3 .healthPic').attr('src', '');
       $('.studentBox3 #expireTime2').val('');
       addHealthPic = ''
@@ -385,7 +385,7 @@ $('.closeStudentBox3').click(function () {
   $('.studentBox3 .address').val('');
   $('.studentBox3 .stock').val('');
   $('.studentBox3 #empName3').attr('value', '');
-  $('.studentBox3 #empName3').text('管理员');
+  $('.studentBox3 #empName3').text('入库人员');
   $('.studentBox3 .healthPic').attr('src', '');
   $('.studentBox3 #expireTime2').val('');
   addHealthPic = ''
