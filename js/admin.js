@@ -7,62 +7,7 @@ layui.use(['element', 'layer', 'upload'], function () {
   element = layui.element;
   layer = layui.layer;
   upload = layui.upload;
-
-  //判断健康证过期时间
-  $.ajax({
-    type: "get",
-    url: url + port + "/employee/getEmployee",
-    xhrFields: {
-      withCredentials: true
-    },
-    success: function (res) {
-      function getBeforeDate(n) {
-        var d = new Date();
-        var year = d.getFullYear();
-        var mon = d.getMonth() + 1;
-        var day = d.getDate();
-        if (day <= n) {
-          if (mon > 1) {
-            mon = mon - 1;
-          } else {
-            year = year - 1;
-            mon = 12;
-          }
-        }
-        d.setDate(d.getDate() - n);
-        year = d.getFullYear();
-        mon = d.getMonth() + 1;
-        day = d.getDate();
-        s = year + "-" + (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
-        return s;
-      }
-
-      function DateDiff(sDate, eDate) { //sDate和eDate是yyyy-MM-dd格式
-        var date1 = new Date(sDate);
-        var date2 = new Date(eDate);
-        var date3 = date2.getTime() - date1.getTime();
-        var days = Math.floor(date3 / (24 * 3600 * 1000));
-        return days;
-      }
-
-      if (res.healthExpire < getBeforeDate(0)) {
-        layer.open({
-          tittle: '健康证过期提醒',
-          area: '300px',
-          content: '健康证已过期，请及时更换健康证'
-        });
-      }
-
-      if (res.healthExpire >= getBeforeDate(0) && res.healthExpire <= getBeforeDate(-7)) {
-        layer.open({
-          title: '健康证过期提醒',
-          area: '300px',
-          content: '健康证于' + DateDiff(getBeforeDate(0), res.healthExpire) + '天后过期'
-        });
-      }
-    }
-  });
-
+  
   //切换导航栏
   element.on('nav(test)', function (elem) {
     var event = event || window.event;

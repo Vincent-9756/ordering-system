@@ -80,6 +80,60 @@ function getStudentData(first) {
       }
       var data = '';
       for (let index = 0; index < res.data.length; index++) {
+        layui.use('layer', function () {
+          layer = layui.layer;
+
+          function getBeforeDate(n) {
+            var d = new Date();
+            var year = d.getFullYear();
+            var mon = d.getMonth() + 1;
+            var day = d.getDate();
+            if (day <= n) {
+              if (mon > 1) {
+                mon = mon - 1;
+              } else {
+                year = year - 1;
+                mon = 12;
+              }
+            }
+            d.setDate(d.getDate() - n);
+            year = d.getFullYear();
+            mon = d.getMonth() + 1;
+            day = d.getDate();
+            s = year + "-" + (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
+            return s;
+          }
+
+          function DateDiff(sDate, eDate) { //sDate和eDate是yyyy-MM-dd格式
+            var date1 = new Date(sDate);
+            var date2 = new Date(eDate);
+            var date3 = date2.getTime() - date1.getTime();
+            var days = Math.floor(date3 / (24 * 3600 * 1000));
+            return days;
+          }
+
+          if (res.data[index].healthExpire < getBeforeDate(0)) {
+            layer.open({
+              type: 1,
+              tittle: '健康证过期提醒',
+              btn: '确定',
+              btnAlign: 'c',
+              area: '300px',
+              content: '<div style="padding: 8px;"><span style="color: #FF5722;">'+res.data[index].name+'</span>健康证已过期，请及时更换健康证</div>'
+            });
+          }
+
+          if (res.data[index].healthExpire >= getBeforeDate(0) && res.data[index].healthExpire <= getBeforeDate(-7)) {
+            layer.open({
+              type: 1,
+              title: '健康证过期提醒',
+              btn: '确定',
+              btnAlign: 'c',
+              area: '300px',
+              content: '<div style="padding: 8px;"><span style="color: #FFB800;">'+res.data[index].name+'</span>健康证于' + DateDiff(getBeforeDate(0), res.data[index].healthExpire) + '天后过期</div>'
+            });
+          }
+        });
         data += '<tr>\n' +
           '<td>\n' +
           '<div>' + ((index + 1) + (studentObj.pageNum - 1) * 5) + '</div>\n' +
@@ -94,7 +148,7 @@ function getStudentData(first) {
           '<div>' + res.data[index].tel + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<img src="http://120.79.88.154:8080' + res.data[index].healthPic + '" />\n' +
+          '<img src="'+ url +''+ port +'' + res.data[index].healthPic + '" />\n' +
           '</td>\n' +
           '<td>\n' +
           '<div>' + res.data[index].healthExpire + '</div>\n' +
@@ -144,7 +198,7 @@ $('body').on('click', '.deleteStudent', function () {
     // dataType: "json",
     // contentType: "application/json;charset=UTF-8",
     data: {
-      id: $('.deleteStudent').attr('value')
+      id: $(this).attr('value')
     },
     success: function () {
       layer.msg('删除成功');
@@ -280,7 +334,12 @@ $('.addMessage').click(function () {
 })
 
 $('.closeStudentBox3').click(function () {
-  $('.studentBox3 .tittle').val('');
-  $('.studentBox3 .content').val('');
+  $('.studentBox3 .account').val('');
+  $('.studentBox3 .pwd').val('');
+  $('.studentBox3 .name').val('');
+  $('.studentBox3 .tel').val('');
+  $('.studentBox3 .healthExpire').val('');
+  $('.studentBox2 .healthPic').attr('src', '');
+  addHealthPic = ''
   $('.wrrap3').hide();
 });

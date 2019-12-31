@@ -28,13 +28,17 @@ button {
   color: #ff5722;
 }
 
-.picBox {
+.picBox,.testPic {
   border: 1px solid #dfdfdf;
   margin: 20px auto;
   padding: 10px;
 }
 
-.picBox img {
+.testPic {
+  display: none;
+}
+
+.picBox img,.testPic img {
   width: 350px;
   height: 250px;
 }

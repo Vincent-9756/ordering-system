@@ -125,7 +125,7 @@ function getStudentData(first) {
           '<div>' + res.data[index].price + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<img src="http://120.79.88.154:8080' + res.data[index].img + '" />\n' +
+          '<img src="'+ url +''+ port +'' + res.data[index].img + '" />\n' +
           '</td>\n' +
           '<td>\n' +
           '<div>' + res.data[index].dishTypeName + '</div>\n' +
@@ -173,7 +173,7 @@ $('body').on('click', '.deleteStudent', function () {
     type: "get",
     url: url + port + "/dish/delDishById",
     data: {
-      id: $('.deleteStudent').attr('value')
+      id: $(this).attr('value')
     },
     success: function () {
       layer.msg('删除成功');

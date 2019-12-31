@@ -1,4 +1,11 @@
 let healthPic;
+if ($('.picBox').children().length == 0) {
+  $('.testPic').show()
+  $('.picBox').hide()
+} else {
+  $('.testPic').hide()
+  $('.picBox').show()
+}
 layui.use(['layer', 'upload'], function () {
   layer = layui.layer;
   upload = layui.upload;
@@ -18,6 +25,7 @@ layui.use(['layer', 'upload'], function () {
       obj.preview(function (index, file, result) {
         console.log(index); //得到文件索引
         console.log(file); //得到文件对象
+        $('.testPic img').attr('src','../images/' + file.name)
         console.log(result); //得到文件base64编码，比如图片
 
         //obj.resetFile(index, file, '123.jpg'); //重命名文件名，layui 2.3.0 开始新增
@@ -57,7 +65,7 @@ layui.use(['layer', 'upload'], function () {
       type: "get",
       url: url + port + "/tablewear/delTablewearById",
       data: {
-        id: $('.delPic').attr('value')
+        id: $(this).attr('value')
       },
       success: function () {
         layer.msg('删除成功');
