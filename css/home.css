@@ -144,7 +144,6 @@ body::-webkit-scrollbar {
 
 .foodBox {
   width: 100%;
-  height: 500px;
   border: 1px solid #e6e6e6;
   border-bottom: 0;
   margin-top: 20px;
@@ -278,6 +277,7 @@ body::-webkit-scrollbar {
 }
 
 .menu-main {
+  width: 420px;
   padding: 5px 0;
   border: 1px dashed #ccc;
   border-left: 0;
@@ -316,4 +316,96 @@ body::-webkit-scrollbar {
   border-radius: 20px;
   text-align: center;
   outline: 0;
+}
+
+.wrrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  margin: 0;
+  z-index: 2003;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  display: none;
+}
+
+.studentBox {
+  width: 50%;
+  background: #FFF;
+  position: relative;
+  margin: 0 auto 50px;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-sizing: border-box;
+  margin-top: 15vh;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.studentBox::-webkit-scrollbar.wrrap::-webkit-scrollbar {
+  display: none;
+}
+
+.studentBox .student-header {
+  padding: 20px 20px 10px;
+}
+
+.studentBox .student-body {
+  padding: 30px 20px;
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.studentBox .closeStudentBox {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: #979aa0;
+}
+
+.studentBox input {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding: 20px;
+  margin-top: 0px;
+  border-radius: 4px;
+  border: 1px solid #DCDFE6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.studentBox .student-body .layui-form-label {
+  padding: 9px 0;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  border: 1px solid #DCDFE6;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 0px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
 }

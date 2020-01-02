@@ -64,12 +64,43 @@
             </ul>
           </div>
         </div>
+        <div class="wrrap">
+          <div class="studentBox">
+            <div class="student-header">
+              <span>公告信息</span>
+              <span class="closeStudentBox">x</span>
+            </div>
+            <div class="student-body">
+              <form class="layui-form" action="" lay-filter="example">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">标题:</label>
+                  <div class="layui-input-block">
+                    <input class="layui-input title" type="text" name="username" lay-verify="title" autocomplete="off"
+                      readonly value="">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">描述:</label>
+                  <div class="layui-input-block">
+                    <textarea id="noticeDetail" cols="30" rows="10" readonly>111</textarea>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">发布时间:</label>
+                  <div class="layui-input-block">
+                    <input class="layui-input time" type="text" name="username" lay-verify="title" autocomplete="off"
+                      readonly value="">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="tadayMenu">
         <div class="menuList">
           <span>菜品分类：</span>
           <div class="menuBox">
-            <span class="menu">全部</span>
           </div>
         </div>
         <div class="foodBox clearfix">
