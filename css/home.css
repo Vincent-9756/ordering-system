@@ -196,18 +196,23 @@ body::-webkit-scrollbar {
 .rstblock-activity i {
   display: inline-block;
   vertical-align: middle;
-  color: #fff;
+  color: #fff!important;
   font-style: normal;
   font-size: 12px;
   line-height: 16px;
   overflow: hidden;
   text-align: center;
-  width: 18px;
   border-radius: 2px;
   margin-right: 3px;
   padding: 1px;
-  background-color: #f63;
+  background-color: #f63!important;
   white-space: nowrap;
+}
+
+.rstblock-activity i:hover {
+  width: 50px!important;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 #pagetion {
@@ -223,7 +228,7 @@ body::-webkit-scrollbar {
   white-space: nowrap;
 }
 
-.dialog {
+.dialog,.dialog2 {
   position: fixed;
   left: 0px;
   top: 0px;
@@ -242,13 +247,100 @@ body::-webkit-scrollbar {
   z-index: 1005;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
   position: relative;
 }
 
-.menu-detail-close {
+.messageDetail {
+  width: 900px;
+  height: 460px;
+  background-color: #fff;
+  padding: 20px 30px;
+  z-index: 1005;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.messageDetail::-webkit-scrollbar {
+  display: none;
+}
+
+.message-title {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #FF5722;
+}
+
+.addMessageBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.addMessageBox #addMsgContent {
+  width: 80%;
+  height: 100px;
+}
+
+#addMsg {
+  background-color: #0089dc;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border: 0;
+  width: 100px;
+  height: 50px;
+  margin-top: 25px;
+  line-height: 26px;
+  border-radius: 20px;
+  text-align: center;
+  outline: 0;
+}
+
+.deleteMsg {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: #FF5722;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  transform: translate(-40px,-50%);
+}
+
+.msgBox {
+  width: 100%;
+  padding: 5px;
+  border: 1px dashed #ccc;
+  border-left: 0;
+  border-right: 0;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.user_msg {
+  width: 100%;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.menu-detail-close,.message-detail-close {
   padding: 0 5px;
   position: absolute;
   top: 0;
@@ -285,8 +377,8 @@ body::-webkit-scrollbar {
   color: #aaa;
   line-height: 20px;
   font-size: 13px;
-  word-break: break-all; 
-	word-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .price-box {
@@ -341,7 +433,7 @@ body::-webkit-scrollbar {
   position: relative;
   margin: 0 auto 50px;
   border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
   box-sizing: border-box;
   margin-top: 15vh;
   overflow: auto;

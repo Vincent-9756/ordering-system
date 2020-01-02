@@ -1,4 +1,5 @@
 let userId;
+let dishId;
 var numStudent = 1; //当前页
 let tableLength; // 分页长度
 let studentObj = {
@@ -86,14 +87,14 @@ $.ajax({
     console.log(res)
     var data = '';
     for (let i = 0; i < res.data.length; i++) {
-      data += '<li value="'+ res.data[i].id +'">' + res.data[i].title + '</li>'
+      data += '<li value="' + res.data[i].id + '">' + res.data[i].title + '</li>'
     }
     $('#notict-list').append(data)
   }
 });
 
 // 公告详情
-$('#notict-list').on('click', 'li', function() {
+$('#notict-list').on('click', 'li', function () {
   $('.wrrap').show();
   $('.studentBox .title').attr('value', '');
   $('.studentBox #noticeDetail').text('');
@@ -117,7 +118,7 @@ $('#notict-list').on('click', 'li', function() {
   });
 });
 
-$('.closeStudentBox').click(function() {
+$('.closeStudentBox').click(function () {
   $('.wrrap').hide();
 });
 
@@ -289,8 +290,8 @@ function getMenu(first) {
           '<div class="rstblock-content">\n' +
           '<div class="rstblock-title">' + res.data[index].name + '</div>\n' +
           '<div class="rstblock-activity">\n' +
-          '<i style="background:#fff;color:#999999;border:1px solid;padding:0;">保</i>\n' +
-          '<i style="background:#fff;color:#999999;border:1px solid;padding:0;">赔</i>\n' +
+          '<i class="menuBtn1" style="width:40px;background:#fff;color:#999999;border:1px solid;padding:0;" value="' + res.data[index].id + '">投诉</i>\n' +
+          '<i class="menuBtn2" style="width:40px;background:#fff;color:#999999;border:1px solid;padding:0;" value="' + res.data[index].id + '">评价</i>\n' +
           '</div>\n' +
           '</div>\n' +
           '</a>'
@@ -299,6 +300,75 @@ function getMenu(first) {
     }
   });
 }
+
+// 获取评价
+$('body').on('click', '.menuBtn2', function (e) {
+  dishId = $(this).attr('value')
+  e.stopPropagation();
+  $('.dialog2').show();
+  getMsg();
+});
+
+function getMsg() {
+  $.ajax({
+    type: "post",
+    url: url + port + "/leaveMessage/queryLeaveMessage",
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    data: JSON.stringify({
+      "dishId": dishId,
+    }),
+    success: function (res) {
+      console.log(res)
+      let data = '';
+      for (let index = 0; index < res.data.length; index++) {
+        data += '<div class="msgBox">'+
+        '<div class="user_name">用户名：'+ res.data[index].clientName +'</div>'+
+        '<div class="user_msg">内容：'+ res.data[index].message +'</div>'+
+        '<div class="user_time">评价时间：'+ res.data[index].leaveDate +'</div>'+
+        '<div class="deleteMsg" value="'+ res.data[index].id +'">删除评价</div>'+
+      '</div>'
+      }
+      $('#message-detail').empty().append(data);
+    }
+  });
+}
+
+// 添加评价
+$('#addMsg').click(function() {
+  $.ajax({
+    type: "post",
+    url: url + port + "/leaveMessage/addLeaveMessage",
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    data: JSON.stringify({
+      "clientId": Number(getCookie('id')),
+      "dishId": Number(dishId),
+      "message": $('#addMsgContent').val(),
+      "type": "1"
+    }),
+    success: function (res) {
+      $('#addMsgContent').val('')
+      // $('#message-detail').empty();
+      getMsg();
+    }
+  });
+});
+
+//删除评价
+$('body').on('click', '.deleteMsg', function() {
+  $.ajax({
+    type: "get",
+    url: url + port + "/leaveMessage/delLeaveMessageById?id=" + $(this).attr('value'),
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    success: function () {
+      layer.msg('删除成功');
+      $('#message-detail').empty();
+      getMsg();
+    }
+  });
+});
 
 //获取菜单详情
 $('body').on('click', '.rstblock', function () {
@@ -347,4 +417,17 @@ $('body').on('click', '.menuDetail', function () {
 
 $('body').on('click', '.menu-detail-close', function () {
   $('.dialog').hide();
+});
+
+$('body').on('click', '.dialog2', function () {
+  $(this).hide();
+});
+
+$('body').on('click', '.messageDetail', function () {
+  event.stopPropagation();
+  return false;
+});
+
+$('body').on('click', '.message-detail-close', function () {
+  $('.dialog2').hide();
 });
