@@ -14,7 +14,7 @@
 <body>
   <div id="home">
     <div class="layui-layout layui-layout-admin">
-      <div class="layui-header">
+      <div class="layui-header" id="topMenu">
         <ul class="layui-nav">
           <li class="layui-nav-item" id="sideNav-hide"><a href="../html/home.html"><img src="../images/logo.jpg" alt="">
               可追溯订餐系统</a>
@@ -120,6 +120,20 @@
           <div class="message-detail-close">x</div>
           <div class="addMessageBox">
             <textarea id="addMsgContent" cols="30" rows="10" placeholder="请输入你的评价"></textarea>
+            <button id="addMsg">发送</button>
+          </div>
+          <div class="message-detail" id="message-detail">
+          </div>
+        </div>
+      </div>
+      <div class="dialog3">
+        <div class="messageDetail">
+          <div class="message-title">
+            用户投诉
+          </div>
+          <div class="message-detail-close">x</div>
+          <div class="addMessageBox">
+            <textarea id="addMsgContent" cols="30" rows="10" placeholder="请输入你的投诉内容"></textarea>
             <button id="addMsg">发送</button>
           </div>
           <div class="message-detail" id="message-detail">

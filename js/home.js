@@ -19,11 +19,12 @@ let menuObj = {
 
 $('#home .userName').html('<img src="../images/avatar.jpg" class="layui-nav-img">' + getCookie('username'))
 
-layui.use(['element', 'layer', 'carousel', 'form'], function () {
+layui.use(['element', 'layer', 'carousel', 'form', 'laydate'], function () {
   element = layui.element;
   layer = layui.layer;
   carousel = layui.carousel;
   form = layui.form;
+  laydate = layui.laydate;
 
   // 图片轮播
   carousel.render({
@@ -51,6 +52,7 @@ layui.use(['element', 'layer', 'carousel', 'form'], function () {
       }
     });
   });
+  $('#topMenu').children('ul').eq(0).children('li').eq(1).children('a').click();
 });
 
 //公告列表滚动
@@ -317,17 +319,18 @@ function getMsg() {
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
       "dishId": dishId,
+      "type": "1"
     }),
     success: function (res) {
       console.log(res)
       let data = '';
       for (let index = 0; index < res.data.length; index++) {
-        data += '<div class="msgBox">'+
-        '<div class="user_name">用户名：'+ res.data[index].clientName +'</div>'+
-        '<div class="user_msg">内容：'+ res.data[index].message +'</div>'+
-        '<div class="user_time">评价时间：'+ res.data[index].leaveDate +'</div>'+
-        '<div class="deleteMsg" value="'+ res.data[index].id +'">删除评价</div>'+
-      '</div>'
+        data += '<div class="msgBox">' +
+          '<div class="user_name">用户名：' + res.data[index].clientName + '</div>' +
+          '<div class="user_msg">内容：' + res.data[index].message + '</div>' +
+          '<div class="user_time">评价时间：' + res.data[index].leaveDate + '</div>' +
+          '<div class="deleteMsg" value="' + res.data[index].id + '">删除评价</div>' +
+          '</div>'
       }
       $('#message-detail').empty().append(data);
     }
@@ -335,7 +338,7 @@ function getMsg() {
 }
 
 // 添加评价
-$('#addMsg').click(function() {
+$('#addMsg').click(function () {
   $.ajax({
     type: "post",
     url: url + port + "/leaveMessage/addLeaveMessage",
@@ -348,15 +351,14 @@ $('#addMsg').click(function() {
       "type": "1"
     }),
     success: function (res) {
-      $('#addMsgContent').val('')
-      // $('#message-detail').empty();
+      $('#addMsgContent').val('');
       getMsg();
     }
   });
 });
 
 //删除评价
-$('body').on('click', '.deleteMsg', function() {
+$('body').on('click', '.deleteMsg', function () {
   $.ajax({
     type: "get",
     url: url + port + "/leaveMessage/delLeaveMessageById?id=" + $(this).attr('value'),
@@ -366,6 +368,75 @@ $('body').on('click', '.deleteMsg', function() {
       layer.msg('删除成功');
       $('#message-detail').empty();
       getMsg();
+    }
+  });
+});
+
+// 获取投诉
+$('body').on('click', '.menuBtn1', function (e) {
+  dishId = $(this).attr('value')
+  e.stopPropagation();
+  $('.dialog3').show();
+  getMsgType();
+});
+
+function getMsgType() {
+  $.ajax({
+    type: "post",
+    url: url + port + "/leaveMessage/queryLeaveMessage",
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    data: JSON.stringify({
+      "dishId": dishId,
+      "type": "2"
+    }),
+    success: function (res) {
+      console.log(res)
+      let data = '';
+      for (let index = 0; index < res.data.length; index++) {
+        data += '<div class="msgBox">' +
+          '<div class="user_name">用户名：' + res.data[index].clientName + '</div>' +
+          '<div class="user_msg">内容：' + res.data[index].message + '</div>' +
+          '<div class="user_time">投诉时间：' + res.data[index].leaveDate + '</div>' +
+          '<div class="deleteMsg" value="' + res.data[index].id + '">删除投诉</div>' +
+          '</div>'
+      }
+      $('.dialog3 #message-detail').empty().append(data);
+    }
+  });
+}
+
+// 添加投诉
+$('.dialog3 #addMsg').click(function () {
+  $.ajax({
+    type: "post",
+    url: url + port + "/leaveMessage/addLeaveMessage",
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    data: JSON.stringify({
+      "clientId": Number(getCookie('id')),
+      "dishId": Number(dishId),
+      "message": $('.dialog3 #addMsgContent').val(),
+      "type": "2"
+    }),
+    success: function (res) {
+      $('.dialog3 #addMsgContent').val('');
+      getMsgType();
+    }
+  });
+});
+
+//删除投诉
+$('body').on('click', '.dialog3 .deleteMsg', function () {
+  $.ajax({
+    type: "get",
+    url: url + port + "/leaveMessage/delLeaveMessageById?id=" + $(this).attr('value'),
+    dataType: "json",
+    contentType: "application/json;charset=UTF-8",
+    success: function () {
+      layer.msg('删除成功');
+      $('.dialog3 #message-detail').empty();
+      getMsgType();
     }
   });
 });
@@ -398,10 +469,60 @@ $('body').on('click', '.rstblock', function () {
         '<span class="yen">¥</span>\n' +
         '<span class="price">' + res.data[0].price + '</span>\n' +
         '</div>\n' +
-        '<button class="menu-buy">加入购物车</button>\n' +
+        '<button class="menu-buy" id="menu-buy" value="' + res.data[0].id + '">加入购物车</button>\n' +
+        '</div>' +
+        '<form class="layui-form" style="margin-top: 20px;" lay-filter="example">' +
+        '<div class="layui-form-item">' +
+        '<label class="layui-form-label" style="width: 140px;color: #FFB800;">商品流向查询:</label>' +
+        '<div class="layui-input-block">' +
+        '<input type="text" class="layui-input" id="selectTime" placeholder="开始 到 结束">' +
+        '</div>' +
+        '</div>' +
+        '</form>' +
+        '<div id="flowBox">' +
         '</div>' +
         '</div>'
       $('.menuDetail').empty().append(data);
+      //商品流向查询
+      laydate.render({
+        elem: '#selectTime',
+        type: 'datetime',
+        range: '到',
+        format: 'yyyy-MM-dd HH:mm:ss',
+        done: function (val, data) {
+          var startTime = val.split('到')[0];
+          var endTime = val.split('到')[1];
+          $.ajax({
+            type: "post",
+            url: url + port + "/order/dishFlow",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify({
+              "dishId": $('#menu-buy').attr('value'),
+              "startTime": startTime,
+              "endTime": endTime,
+            }),
+            success: function (res) {
+              console.log(res)
+              if (res.data.length == 0) {
+                layer.msg('商品在此时间段内暂无流向记录！')
+              } else {
+                var data = '';
+                for (let index = 0; index < res.data.length; index++) {
+                  data += '<div class="flowDetail">\n' +
+                    '<span class="flowName">流向用户：' + res.data[index].clientName + '</span>\n' +
+                    '<span>|</span>\n'+
+                    '<span class="flowAddress">流向地址：' + res.data[index].address + '</span>\n' +
+                    '<span>|</span>\n'+
+                    '<span class="flowDate">时间：' + res.data[index].createtime + '</span>\n' +
+                    '</div>\n'
+                }
+                $('#flowBox').empty().append(data);
+              }
+            }
+          });
+        }
+      });
     }
   });
 });
@@ -430,4 +551,17 @@ $('body').on('click', '.messageDetail', function () {
 
 $('body').on('click', '.message-detail-close', function () {
   $('.dialog2').hide();
+});
+
+$('body').on('click', '.dialog3', function () {
+  $(this).hide();
+});
+
+$('body').on('click', '.dialog3 .messageDetail', function () {
+  event.stopPropagation();
+  return false;
+});
+
+$('body').on('click', '.dialog3 .message-detail-close', function () {
+  $('.dialog3').hide();
 });

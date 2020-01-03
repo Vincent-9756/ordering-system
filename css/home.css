@@ -228,7 +228,7 @@ body::-webkit-scrollbar {
   white-space: nowrap;
 }
 
-.dialog,.dialog2 {
+.dialog,.dialog2, .dialog3 {
   position: fixed;
   left: 0px;
   top: 0px;
@@ -251,6 +251,13 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   position: relative;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.menuDetail::-webkit-scrollbar {
+  display: none;
 }
 
 .messageDetail {
@@ -502,4 +509,25 @@ textarea {
 
 textarea::-webkit-scrollbar {
   display: none;
+}
+
+#selectTime {
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  width: 280px;
+  color: #FF5722;
+}
+
+.flowDetail {
+  width: 420px;
+  padding: 5px 0;
+  border: 1px dashed #ccc;
+  border-left: 0;
+  border-right: 0;
+  color: #aaa;
+  line-height: 20px;
+  font-size: 12px;
+  word-break: break-all;
+  word-wrap: break-word;
+  margin-top: 10px;
 }
