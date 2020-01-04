@@ -39,7 +39,7 @@ $('#loginToHome').click(function () {
       success: function (res) {
         if (res.result == 'SUCCESS') {
           layer.msg('登陆成功');
-          document.cookie = 'username=' + $('#userName').val();
+          document.cookie = 'uname=' + $('#userName').val();
           window.location.href = '../html/home.html';
           window.event.returnValue=false;
         } else {

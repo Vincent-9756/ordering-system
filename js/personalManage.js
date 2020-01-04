@@ -50,7 +50,11 @@ layui.use(['laydate', 'layer', 'upload'], function () {
     },
     done: function (res) {
       console.log(res)
-      healthPic = res.data
+      healthPic = res.data;
+      layui.use('layer', function () {
+        var layer = layui.layer;
+        layer.msg('上传成功！');
+      });
     }
   });
 });
@@ -119,7 +123,7 @@ function getStudentData(first) {
               btn: '确定',
               btnAlign: 'c',
               area: '300px',
-              content: '<div style="padding: 8px;"><span style="color: #FF5722;">'+res.data[index].name+'</span>健康证已过期，请及时更换健康证</div>'
+              content: '<div style="padding: 8px;"><span style="color: #FF5722;">' + res.data[index].name + '</span>健康证已过期，请及时更换健康证</div>'
             });
           }
 
@@ -130,7 +134,7 @@ function getStudentData(first) {
               btn: '确定',
               btnAlign: 'c',
               area: '300px',
-              content: '<div style="padding: 8px;"><span style="color: #FFB800;">'+res.data[index].name+'</span>健康证于' + DateDiff(getBeforeDate(0), res.data[index].healthExpire) + '天后过期</div>'
+              content: '<div style="padding: 8px;"><span style="color: #FFB800;">' + res.data[index].name + '</span>健康证于' + DateDiff(getBeforeDate(0), res.data[index].healthExpire) + '天后过期</div>'
             });
           }
         });
@@ -148,7 +152,7 @@ function getStudentData(first) {
           '<div>' + res.data[index].tel + '</div>\n' +
           '</td>\n' +
           '<td>\n' +
-          '<img src="'+ url +''+ port +'' + res.data[index].healthPic + '" />\n' +
+          '<img src="' + url + '' + port + '' + res.data[index].healthPic + '" />\n' +
           '</td>\n' +
           '<td>\n' +
           '<div>' + res.data[index].healthExpire + '</div>\n' +

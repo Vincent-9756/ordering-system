@@ -17,7 +17,18 @@ let menuObj = {
   "pageNum": numStudent
 }
 
-$('#home .userName').html('<img src="../images/avatar.jpg" class="layui-nav-img">' + getCookie('username'))
+$('#home .userName').html('<img src="../images/avatar.jpg" class="layui-nav-img">' + getCookie('uname'));
+$.ajax({
+  type: "get",
+  url: url + port + "/client/getClient",
+  xhrFields: {
+    withCredentials: true
+  },
+  success: function (res) {
+    console.log(res)
+    document.cookie = 'userid=' + res.id;
+  }
+});
 
 layui.use(['element', 'layer', 'carousel', 'form', 'laydate'], function () {
   element = layui.element;
@@ -45,7 +56,8 @@ layui.use(['element', 'layer', 'carousel', 'form', 'laydate'], function () {
       success: function (res) {
         layer.msg('退出成功');
         setTimeout(() => {
-          setCookie('username', "", -1);
+          setCookie('uname', "", -1);
+          setCookie('userid', "", -1);
           window.location.href = '../html/userLogin.html'
         }, 2000);
         $(this).removeClass('layui-this');
@@ -345,7 +357,7 @@ $('#addMsg').click(function () {
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
-      "clientId": Number(getCookie('id')),
+      "clientId": Number(getCookie('userid')),
       "dishId": Number(dishId),
       "message": $('#addMsgContent').val(),
       "type": "1"
@@ -414,7 +426,7 @@ $('.dialog3 #addMsg').click(function () {
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     data: JSON.stringify({
-      "clientId": Number(getCookie('id')),
+      "clientId": Number(getCookie('userid')),
       "dishId": Number(dishId),
       "message": $('.dialog3 #addMsgContent').val(),
       "type": "2"
@@ -473,7 +485,7 @@ $('body').on('click', '.rstblock', function () {
         '</div>' +
         '<form class="layui-form" style="margin-top: 20px;" lay-filter="example">' +
         '<div class="layui-form-item">' +
-        '<label class="layui-form-label" style="width: 140px;color: #FFB800;">商品流向查询:</label>' +
+        '<label class="layui-form-label" style="width: 165px;color: #FFB800;">食品抽查记录查询:</label>' +
         '<div class="layui-input-block">' +
         '<input type="text" class="layui-input" id="selectTime" placeholder="开始 到 结束">' +
         '</div>' +
@@ -483,7 +495,7 @@ $('body').on('click', '.rstblock', function () {
         '</div>' +
         '</div>'
       $('.menuDetail').empty().append(data);
-      //商品流向查询
+      //食品抽查记录查询
       laydate.render({
         elem: '#selectTime',
         type: 'datetime',
@@ -494,7 +506,7 @@ $('body').on('click', '.rstblock', function () {
           var endTime = val.split('到')[1];
           $.ajax({
             type: "post",
-            url: url + port + "/order/dishFlow",
+            url: url + port + "/spotCheck/querySpotCheck",
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             data: JSON.stringify({
@@ -510,11 +522,11 @@ $('body').on('click', '.rstblock', function () {
                 var data = '';
                 for (let index = 0; index < res.data.length; index++) {
                   data += '<div class="flowDetail">\n' +
-                    '<span class="flowName">流向用户：' + res.data[index].clientName + '</span>\n' +
+                    '<span class="flowName">抽查人员：' + res.data[index].empName + '</span>\n' +
                     '<span>|</span>\n'+
-                    '<span class="flowAddress">流向地址：' + res.data[index].address + '</span>\n' +
+                    '<span class="flowAddress">抽查结果：' + res.data[index].result + '</span>\n' +
                     '<span>|</span>\n'+
-                    '<span class="flowDate">时间：' + res.data[index].createtime + '</span>\n' +
+                    '<span class="flowDate">时间：' + res.data[index].checkTime + '</span>\n' +
                     '</div>\n'
                 }
                 $('#flowBox').empty().append(data);
@@ -523,6 +535,24 @@ $('body').on('click', '.rstblock', function () {
           });
         }
       });
+    }
+  });
+});
+
+// 添加购物车
+$('body').on('click', '#menu-buy', function () {
+  $.ajax({
+    type: "get",
+    url: url + port + "/cart/addItem",
+    xhrFields: {
+      withCredentials: true
+    },
+    data: {
+      "id": $(this).attr('value'),
+      "quantity": 1
+    },
+    success: function (res) {
+      layer.msg('添加成功！');
     }
   });
 });

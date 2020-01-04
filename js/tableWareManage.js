@@ -1,11 +1,5 @@
 let healthPic;
-if ($('.picBox').children().length == 0) {
-  $('.testPic').show()
-  $('.picBox').hide()
-} else {
-  $('.testPic').hide()
-  $('.picBox').show()
-}
+// 查找合格证
 layui.use(['layer', 'upload'], function () {
   layer = layui.layer;
   upload = layui.upload;
@@ -25,7 +19,8 @@ layui.use(['layer', 'upload'], function () {
       obj.preview(function (index, file, result) {
         console.log(index); //得到文件索引
         console.log(file); //得到文件对象
-        $('.testPic img').attr('src','../images/' + file.name)
+        $('.picBox img').attr('src', '../images/' + file.name);
+        console.log($('.picBox img').attr('src'))
         console.log(result); //得到文件base64编码，比如图片
 
         //obj.resetFile(index, file, '123.jpg'); //重命名文件名，layui 2.3.0 开始新增
@@ -40,62 +35,36 @@ layui.use(['layer', 'upload'], function () {
       console.log(res)
       healthPic = res.data
       console.log(healthPic)
-      // $.ajax({
-      //   type: "post",
-      //   url: url + port + "/tablewear/addTablewear",
-      //   dataType: "json",
-      //   contentType: "application/json;charset=UTF-8",
-      //   data: JSON.stringify({
-      //     "checkPic": healthPic 
-      //   }),
-      //   success: function (res) {
-      //     layer.msg('添加成功');
-      //     $('.picBox').empty();
-      //     getPic();
-      //   }
-      // });
+      $.ajax({
+        type: "post",
+        url: url + port + "/tablewear/updateTablewearById",
+        dataType: "json",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify({
+          "checkPic": healthPic,
+          "id": "1"
+        }),
+        success: function (res) {
+          layer.msg('添加成功');
+          getPic();
+        }
+      });
     }
   });
 
-  $('')
+  getPic();
 
-  //删除合格证
-  $('body').on('click', '.delPic', function () {
+  function getPic() {
     $.ajax({
-      type: "get",
-      url: url + port + "/tablewear/delTablewearById",
-      data: {
-        id: $(this).attr('value')
-      },
-      success: function () {
-        layer.msg('删除成功');
-        $('.picBox').empty();
-        getPic();
+      type: "post",
+      url: url + port + "/tablewear/queryTablewear",
+      dataType: "json",
+      contentType: "application/json;charset=UTF-8",
+      data: JSON.stringify({}),
+      success: function (res) {
+        console.log(res)
+        $('.picBox img').attr('src', url + port + res.data[0].checkPic);
       }
     });
-  });
+  }
 });
-
-// 查找合格证
-getPic();
-
-function getPic() {
-  $.ajax({
-    type: "post",
-    url: url + port + "/tablewear/queryTablewear",
-    dataType: "json",
-    contentType: "application/json;charset=UTF-8",
-    data: JSON.stringify({}),
-    success: function (res) {
-      console.log(res)
-      let data = ''
-      for (let i = 0; i < res.data.length; i++) {
-        data += '<div class="onePicBox">' +
-          '<img class="checkPic" src="http://192.168.31.215:8080' + res.data[i].checkPic + '" alt="">' +
-          '<span class="delPic" value="' + res.data[i].id + '">x</span>' +
-          '</div>'
-      }
-      $('.picBox').append(data)
-    }
-  });
-}

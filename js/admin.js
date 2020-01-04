@@ -35,6 +35,7 @@ layui.use(['element', 'layer', 'upload'], function () {
         layer.msg('退出成功');
         setTimeout(() => {
           setCookie('username', "", -1);
+          setCookie('id', "", -1);
           window.location.href = '../html/adminLogin.html'
         }, 2000);
         $(this).removeClass('layui-this');

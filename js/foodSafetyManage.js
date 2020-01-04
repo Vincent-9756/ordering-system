@@ -87,7 +87,11 @@ layui.use(['laydate', 'layer', 'upload'], function () {
     },
     done: function (res) {
       console.log(res)
-      healthPic = res.data
+      healthPic = res.data;
+      layui.use('layer', function () {
+        var layer = layui.layer;
+        layer.msg('上传成功！');
+      });
     }
   });
 });
@@ -344,7 +348,7 @@ $('.addStudent').click(function () {
         });
       },
       done: function (res) {
-        addHealthPic = res.data
+        addHealthPic = res.data;
       }
     });
   });

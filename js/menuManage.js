@@ -88,7 +88,11 @@ layui.use(['layer', 'upload'], function () {
     },
     done: function (res) {
       console.log(res)
-      healthPic = res.data
+      healthPic = res.data;
+      layui.use('layer', function () {
+        var layer = layui.layer;
+        layer.msg('上传成功！');
+      });
     }
   });
 });
@@ -212,7 +216,7 @@ $('.submitMessage').click(function () {
       "name": $('.studentBox2 .name').val(),
       "detail": $('.studentBox2 .detail').val(),
       "price": $('.studentBox2 .price').val(),
-      "healthPic": healthPic,
+      "img": healthPic,
       "dishTypeId": $('.studentBox2 #dishTypeName2').attr('value'),
     }),
     success: function (res) {
@@ -295,7 +299,7 @@ $('.addMessage').click(function () {
       "name": $('.studentBox3 .name').val(),
       "detail": $('.studentBox3 .detail').val(),
       "price": $('.studentBox3 .price').val(),
-      "healthPic": addHealthPic,
+      "img": addHealthPic,
       "dishTypeId": $('.studentBox3 #dishTypeName3').attr('value'),
     }),
     success: function (res) {
