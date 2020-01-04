@@ -1,19 +1,26 @@
+var numStudent = 1; //当前页
+let tableLength; // 分页长度
+let studentObj = {
+  "clientid": Number(getCookie('userid')),
+  "pageSize": 7,
+  "pageNum": numStudent
+}
 // 查找订单
 getOrder();
 
-function getOrder() {
+function getOrder(first) {
   $.ajax({
     type: "post",
     url: url + port + "/order/queryOrder",
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
-    data: JSON.stringify({
-      "clientid": Number(getCookie('userid')),
-      "pageNum": null,
-      "pageSize": null
-    }),
+    data: JSON.stringify(studentObj),
     success: function (res) {
       console.log(res)
+      tableLength = res.total
+      if (!first) {
+        changePage(pagetion);
+      }
       let data = '';
       for (let i = 0; i < res.data.length; i++) {
         data += '<div class="orderBox" id="orderBox">'+
@@ -30,6 +37,29 @@ function getOrder() {
       }
       $('#orderTotalBox').empty().append(data);
     }
+  });
+}
+
+// 改变分页函数
+function changePage(el) {
+  layui.use(['laypage', 'layer'], function () {
+    var laypage = layui.laypage,
+      layer = layui.layer;
+    laypage.render({
+      elem: el,
+      count: tableLength,
+      limit: 7,
+      first: '首页',
+      last: '尾页',
+      prev: '<em>←</em>',
+      next: '<em>→</em>',
+      jump: function (obj, first) {
+        studentObj.pageNum = obj.curr;
+        if (!first) {
+          getOrder(1);
+        }
+      }
+    })
   });
 }
 
@@ -57,7 +87,7 @@ function getDetail(e) {
       let data = '';
       for (let i = 0; i < res.data.length; i++) {
         data += '<div class="layui-form-item">' +
-          '<label class="layui-form-label">菜名:</label>' +
+          '<label class="layui-form-label">菜名'+(i+1)+':</label>' +
           '<div class="layui-input-block">' +
           '<input class="layui-input dishName" value="' + res.data[i].dishName + '" type="text" name="username" lay-verify="title" autocomplete="off" readonly>' +
           '</div>' +

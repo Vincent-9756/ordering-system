@@ -32,7 +32,7 @@ body::-webkit-scrollbar {
   justify-content: space-between;
   padding: 0 20px;
   text-align: center;
-  background: #ddd;
+  background: #FFC107;
 }
 
 .orderTableTop>div {
@@ -42,16 +42,14 @@ body::-webkit-scrollbar {
 .orderBox {
   width: 100%;
   border: 1px dashed #393D49;
-  margin-top: 20px;
+  background: #8BC34A;
+  color: #fff;
   border-left: 0;
   border-right: 0;
+  border-bottom: 0;
   padding: 20px;
   display: flex;
   justify-content: space-between;
-}
-
-.orderBox:first-child {
-  margin-top: 0;
 }
 
 .orderPic,.orderDetail,.order-price,.order-num,.order-operate {
@@ -171,4 +169,17 @@ textarea {
 
 textarea::-webkit-scrollbar {
   display: none;
+}
+
+#pagetion {
+  width: 100%;
+  position: relative;
+}
+
+#pagetion .layui-laypage {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
