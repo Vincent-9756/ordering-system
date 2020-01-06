@@ -59,8 +59,6 @@ layui.use(['laydate', 'layer'], function () {
             '<td>\n' +
             '<div class="operate">\n' +
             '<span class="checkDetail" value="' + res.data[index].id + '">查看详情</span>\n' +
-            '<span class="editStudent" value="' + res.data[index].id + '">编辑</span>\n' +
-            '<span class="deleteStudent" value="' + res.data[index].id + '">删除</span>\n' +
             '</div>\n' +
             '</td>\n' +
             '</tr>\n'
