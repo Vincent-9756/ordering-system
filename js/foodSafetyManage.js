@@ -312,7 +312,7 @@ function getDetail(e) {
       $('.studentBox .address,.studentBox2 .address').val(res.data[0].address);
       $('.studentBox .stock,.studentBox2 .stock').val(res.data[0].stock);
       $('.studentBox .empName, .studentBox2 #empName2').attr('value', res.data[0].empId);
-      $('.studentBox .healthPic,.studentBox2 .healthPic').attr('src', url + port + res.data[0].healthPic);
+      $('.studentBox .healthPic,.studentBox2 .healthPic').attr('src', url + port + res.data[0].reportPic);
       $('.studentBox .expireTime,.studentBox2 .expireTime').val(res.data[0].expireTime);
       for (let i = 0; i < $('.empBox2').children('div').length; i++) {
         if ($('#empName2').attr('value') == $('.empBox2').children('div').eq(i).attr('value')) {

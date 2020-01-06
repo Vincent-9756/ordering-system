@@ -486,9 +486,6 @@ $('body').on('click', '.rstblock', function () {
         '<form class="layui-form" style="margin-top: 20px;" lay-filter="example">' +
         '<div class="layui-form-item">' +
         '<label class="layui-form-label" style="width: 165px;color: #FFB800;">食品抽查记录查询:</label>' +
-        '<div class="layui-input-block">' +
-        '<input type="text" class="layui-input" id="selectTime" placeholder="开始 到 结束">' +
-        '</div>' +
         '</div>' +
         '</form>' +
         '<div id="flowBox">' +
@@ -496,43 +493,31 @@ $('body').on('click', '.rstblock', function () {
         '</div>'
       $('.menuDetail').empty().append(data);
       //食品抽查记录查询
-      laydate.render({
-        elem: '#selectTime',
-        type: 'datetime',
-        range: '到',
-        format: 'yyyy-MM-dd HH:mm:ss',
-        done: function (val, data) {
-          var startTime = val.split('到')[0];
-          var endTime = val.split('到')[1];
-          $.ajax({
-            type: "post",
-            url: url + port + "/spotCheck/querySpotCheck",
-            dataType: "json",
-            contentType: "application/json;charset=UTF-8",
-            data: JSON.stringify({
-              "dishId": $('#menu-buy').attr('value'),
-              "startTime": startTime,
-              "endTime": endTime,
-            }),
-            success: function (res) {
-              console.log(res)
-              if (res.data.length == 0) {
-                layer.msg('商品在此时间段内暂无流向记录！')
-              } else {
-                var data = '';
-                for (let index = 0; index < res.data.length; index++) {
-                  data += '<div class="flowDetail">\n' +
-                    '<span class="flowName">抽查人员：' + res.data[index].empName + '</span>\n' +
-                    '<span>|</span>\n'+
-                    '<span class="flowAddress">抽查结果：' + res.data[index].result + '</span>\n' +
-                    '<span>|</span>\n'+
-                    '<span class="flowDate">时间：' + res.data[index].checkTime + '</span>\n' +
-                    '</div>\n'
-                }
-                $('#flowBox').empty().append(data);
-              }
+      $.ajax({
+        type: "post",
+        url: url + port + "/spotCheck/querySpotCheck",
+        dataType: "json",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify({
+          "dishId": Number($('#menu-buy').attr('value')),
+        }),
+        success: function (res) {
+          console.log(res)
+          if (res.data.length == 0) {
+            layer.msg('商品在此时间段内暂无抽查记录！')
+          } else {
+            var data = '';
+            for (let index = 0; index < res.data.length; index++) {
+              data += '<div class="flowDetail">\n' +
+                '<span class="flowName">抽查人员：' + res.data[index].empName + '</span>\n' +
+                '<span>|</span>\n' +
+                '<span class="flowAddress">抽查结果：' + res.data[index].result + '</span>\n' +
+                '<span>|</span>\n' +
+                '<span class="flowDate">时间：' + res.data[index].checkTime + '</span>\n' +
+                '</div>\n'
             }
-          });
+            $('#flowBox').empty().append(data);
+          }
         }
       });
     }

@@ -70,13 +70,22 @@ $(function () {
         withCredentials: true
       },
       success: function (res) {
-        layui.use('layer', function () {
-          var layer = layui.layer;
-          layer.msg('结算成功！');
-        });
-        setTimeout(() => {
-          getCar();
-        }, 1000);
+        console.log(res)
+        if (res.result != "ERROR") {
+          layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('结算成功！');
+          });
+          setTimeout(() => {
+            $('#shopBox').empty();
+            getCar();
+          }, 1000);
+        } else {
+          layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('结算失败！');
+          });
+        }
       }
     });
   });

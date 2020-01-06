@@ -115,7 +115,7 @@ layui.use(['laydate', 'layer'], function () {
         $('.studentBox .name').val(res.data[0].name);
         $('.studentBox .address').val(res.data[0].address);
         $('.studentBox .stock').val(res.data[0].stock);
-        $('.studentBox .healthPic').attr('src', url + port + res.data[0].healthPic);
+        $('.studentBox .healthPic').attr('src', url + port + res.data[0].reportPic);
         $('.studentBox .expireTime').val(res.data[0].expireTime);
         $.ajax({
           type: "post",
